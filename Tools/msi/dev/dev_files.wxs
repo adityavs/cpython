@@ -13,6 +13,9 @@
             <Component Id="libs_python3.lib" Directory="libs" Guid="*">
                 <File Id="libs_python_stable.lib" Name="python$(var.MajorVersionNumber).lib" KeyPath="yes" />
             </Component>
+            <Component Id="libs_python3t.lib" Directory="libs" Guid="*">
+                <File Id="libs_python_abi3tcompat.lib" Name="python$(var.MajorVersionNumber)t.lib" KeyPath="yes" />
+            </Component>
             <Component Id="libs_python.lib" Directory="libs" Guid="*">
                 <File Id="libs_python.lib" Name="python$(var.MajorVersionNumber)$(var.MinorVersionNumber).lib" KeyPath="yes" />
             </Component>
@@ -24,19 +27,12 @@
             <Component Id="libs_python3_d.lib" Directory="libs" Guid="*">
                 <File Id="libs_python_stable_d.lib" Name="python$(var.MajorVersionNumber)_d.lib" />
             </Component>
+            <Component Id="libs_python3t_d.lib" Directory="libs" Guid="*">
+                <File Id="libs_python_abi3tcompat_d.lib" Name="python$(var.MajorVersionNumber)t_d.lib" />
+            </Component>
             <Component Id="libs_python_d.lib" Directory="libs" Guid="*">
                 <File Id="libs_python_d.lib" Name="python$(var.MajorVersionNumber)$(var.MinorVersionNumber)_d.lib" />
             </Component>
         </ComponentGroup>
     </Fragment>
-    
-    <?ifdef IncludeMinGWLib ?>
-    <Fragment>
-        <ComponentGroup Id="dev_mingw">
-            <Component Id="libs_libpython.a" Directory="libs" Guid="*">
-                <File Id="libs_libpython.a" Name="libpython$(var.MajorVersionNumber)$(var.MinorVersionNumber).a" KeyPath="yes" />
-            </Component>
-        </ComponentGroup>
-    </Fragment>
-    <?endif ?>
 </Wix>

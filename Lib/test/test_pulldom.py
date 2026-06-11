@@ -3,6 +3,7 @@ import unittest
 import xml.sax
 
 from xml.sax.xmlreader import AttributesImpl
+from xml.sax.handler import feature_external_ges
 from xml.dom import pulldom
 
 from test.support import findfile
@@ -45,7 +46,7 @@ class PullDOMTestCase(unittest.TestCase):
         items = pulldom.parseString(SMALL_SAMPLE)
         evt, node = next(items)
         # Just check the node is a Document:
-        self.assertTrue(hasattr(node, "createElement"))
+        self.assertHasAttr(node, "createElement")
         self.assertEqual(pulldom.START_DOCUMENT, evt)
         evt, node = next(items)
         self.assertEqual(pulldom.START_ELEMENT, evt)
@@ -159,12 +160,11 @@ class PullDOMTestCase(unittest.TestCase):
             self.fail(
                 "Ran out of events, but should have received END_DOCUMENT")
 
-    def test_getitem_deprecation(self):
+    def test_external_ges_default(self):
         parser = pulldom.parseString(SMALL_SAMPLE)
-        with self.assertWarnsRegex(DeprecationWarning,
-                                   r'Use iterator protocol instead'):
-            # This should have returned 'END_ELEMENT'.
-            self.assertEqual(parser[-1][0], pulldom.START_DOCUMENT)
+        saxparser = parser.parser
+        ges = saxparser.getFeature(feature_external_ges)
+        self.assertEqual(ges, False)
 
 
 class ThoroughTestCase(unittest.TestCase):
@@ -192,7 +192,7 @@ class ThoroughTestCase(unittest.TestCase):
         evt, node = next(pd)
         self.assertEqual(pulldom.START_DOCUMENT, evt)
         # Just check the node is a Document:
-        self.assertTrue(hasattr(node, "createElement"))
+        self.assertHasAttr(node, "createElement")
 
         if before_root:
             evt, node = next(pd)
